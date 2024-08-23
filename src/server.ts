@@ -1,6 +1,8 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express, { Express } from 'express';
+import swaggerUi from "swagger-ui-express";
+import swaggerDocs from "./docs/swagger.json";
 import routes from "./routes";
 
 // Carrega as variáveis de ambiente
@@ -20,6 +22,9 @@ app.use(express.json());
 
 // Middleware para as rotas
 app.use("/api", routes);
+
+// Middleware para a documentação da API
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Inicializando o servidor
 app.listen(port, () => {
