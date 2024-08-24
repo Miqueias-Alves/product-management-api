@@ -56,3 +56,60 @@ export const create = async (req: Request, res: Response, next: NextFunction): P
     res.status(500).json({ message: 'Error' });
   }
 }
+
+export const update = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const id = req.params.id;
+    const { 
+      name,
+      price,
+      description,
+      image,
+      expirationDate,
+      categoryId
+    } = req.body;
+
+    if (!name || !price || !description || !image || !categoryId) {
+      next(new BadRequestException("All fields are required", HttpStatusCode.BAD_REQUEST));
+    }
+
+    const productExist = await ProductService.findById(id);
+
+    if (!productExist) {
+      res.status(404).json({ message: 'Product not found' });
+      return;
+    }
+
+    const data: Product = {
+      id,
+      name,
+      price,
+      description,
+      expirationDate,
+      image,
+      categoryId
+    };
+
+    const product = await ProductService.update(id, data);
+
+    res.status(200).json(product);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Error' });
+  }
+}
+
+export const remove = async (req: Request, res: Response): Promise<void> => {
+  const id = req.params.id;
+
+  const productExist = await ProductService.findById(id);
+
+  if (!productExist) {
+    res.status(404).json({ message: 'Product not found' });
+    return;
+  }
+
+  const product = await ProductService.remove(id);
+
+  res.status(200).json({ message: `Product '${product?.name}' deleted!` });
+}

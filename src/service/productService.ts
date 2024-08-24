@@ -37,3 +37,34 @@ export const create = async (data: Product): Promise<Products> => {
   });
   return product;
 }
+
+export const update = async (id: string, data: Product): Promise<Products | null> => {
+  const prisma = new PrismaClient();
+  // covert string to date ex: 12/12/2021 to 2021-12-12 00:00:00
+  const date = moment(data.expirationDate, "DD/MM/YYYY").format("YYYY-MM-DDTHH:mm:ss.SSS");
+
+  const product = await prisma.products.update({
+    where: {
+      id: id
+    },
+    data: {
+      name: data.name,
+      price: data.price,
+      description: data.description,
+      expirationDate: new Date(date),
+      image: data.image,
+      category_id: data.categoryId
+    }
+  });
+  return product;
+}
+
+export const remove = async (id: string): Promise<Products | null> => {
+  const prisma = new PrismaClient();
+  const product = await prisma.products.delete({
+    where: {
+      id: id
+    }
+  });
+  return product;
+}
