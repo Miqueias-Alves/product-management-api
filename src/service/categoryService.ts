@@ -52,3 +52,14 @@ export const remove = async (id: string): Promise<Categories | null> => {
   });
   return category;
 }
+
+
+export const findByName = async (name: string): Promise<Categories | null> => {
+  const prisma = new PrismaClient();
+  const category = await prisma.categories.findFirst({
+    where: {
+      name: name
+    }
+  });
+  return category;
+}

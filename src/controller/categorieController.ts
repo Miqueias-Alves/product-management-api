@@ -20,8 +20,17 @@ export const findById = async (req: Request, res: Response): Promise<void> => {
 export const create = async (req: Request, res: Response): Promise<void> => {
     const { name } = req.body;
 
+    // checa se a categoria já existe, garantindo que não haja duplicidade
+    const categoryExists = await CategoryService.findByName(name);
+
+    if (categoryExists) {
+        res.status(400).json({ message: 'Category already exists' });
+        return;
+    }
+
     if (!name) {
         res.status(400).json({ message: 'Name is required' });
+        return;
     }
 
     const data = {
