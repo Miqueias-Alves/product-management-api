@@ -5,7 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev src/server.ts",
-    "prod": "tsc && node dist/server.js"
+    "prod": "tsc && node dist/server.js",
+    "prisma:migrate": "npx prisma migrate dev",
+    "prisma:rollback": "npx prisma migrate reset"
   },
   "author": "Miqueias Alves",
   "license": "ISC",
@@ -23,6 +25,7 @@
     "typescript-eslint": "^8.2.0"
   },
   "dependencies": {
+    "@prisma/client": "^5.18.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2"

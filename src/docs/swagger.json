@@ -178,5 +178,36 @@
         }
       }
     }
+  },
+  "components": {
+    "schemas": {
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Product id"
+          },
+          "name": {
+            "type": "string",
+            "description": "Product name"
+          },
+          "price": {
+            "type": "number",
+            "description": "Product price"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Product quantity"
+          }
+        },
+        "required": [
+          "name",
+          "price",
+          "quantity"
+        ]
+      }
+    }
   }
 }

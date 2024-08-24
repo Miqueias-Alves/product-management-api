@@ -12,3 +12,32 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+// model categories
+model Categories {
+  id         String     @id @default(uuid())
+  name       String     @db.VarChar(100)
+  created_at DateTime   @default(now())
+  updated_at DateTime   @default(now())
+  deleted_at DateTime?
+  products   Products[]
+
+  @@map("categories")
+}
+
+// model products
+model Products {
+  id             String     @id @default(uuid())
+  name           String     @db.VarChar(50)
+  description    String?    @db.VarChar(200)
+  price          Float
+  expirationDate DateTime   @map("expiration_date")
+  image          String
+  category_id    String
+  created_at     DateTime   @default(now())
+  updated_at     DateTime   @default(now())
+  deleted_at     DateTime?
+  categories     Categories @relation(fields: [category_id], references: [id])
+
+  @@map("products")
+}

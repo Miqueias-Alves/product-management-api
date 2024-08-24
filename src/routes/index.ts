@@ -1,9 +1,11 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
 
-const routes = Router();
+// importa todas as rotas
+import productRouter from "./productRoute";
 
-routes.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
-});
+const router: Router = Router();
 
-export default routes;
+// define a rota principal de cada recurso
+router.use("/products", productRouter);
+
+export default router;
