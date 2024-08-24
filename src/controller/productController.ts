@@ -111,5 +111,5 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
 
   const product = await ProductService.remove(id);
 
-  res.status(200).json({ message: `Product '${product?.name}' deleted!` });
+  res.status(200).json({ message: `Product '${product?.name}' removed!` });
 }

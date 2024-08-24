@@ -55,3 +55,18 @@ export const update = async (req: Request, res: Response): Promise<void> => {
     const category = await CategoryService.update(id, data);
     res.status(200).json(category);
 }
+
+export const remove = async (req: Request, res: Response): Promise<void> => {
+    const id = req.params.id;
+
+    const categoryExists = await CategoryService.findById(id);
+
+    if (!categoryExists) {
+        res.status(404).json({ message: 'Category not found' });
+        return;
+    }
+
+    const category = await CategoryService.remove(id);
+
+    res.status(200).json({ message: `Category '${category?.name}' removed!` });
+}

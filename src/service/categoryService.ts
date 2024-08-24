@@ -42,3 +42,13 @@ export const update = async (id: string, data: Category): Promise<Category | nul
   });
   return category;
 }
+
+export const remove = async (id: string): Promise<Categories | null> => {
+  const prisma = new PrismaClient();
+  const category = await prisma.categories.delete({
+    where: {
+      id: id
+    }
+  });
+  return category;
+}
