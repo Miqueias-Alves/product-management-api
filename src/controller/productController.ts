@@ -158,3 +158,18 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
 
   res.status(200).json({ message: `Product '${product?.name}' removed!` });
 }
+
+export const search = async (req: Request, res: Response): Promise<void> => {
+  const { search } = req.query;
+
+  console.log(search);
+
+  if (!search || search === '' || typeof search !== 'string') {
+    res.status(400).json({ message: 'Search query param is required' });
+    return;
+  }
+
+  const products = await ProductService.search(search);
+
+  res.status(200).json(products);
+}
