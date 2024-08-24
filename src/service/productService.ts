@@ -5,17 +5,26 @@ import { Product }  from "../model/productModel";
 
 export const findAll = async (): Promise<Products[] | null> => {
   const prisma = new PrismaClient();
-  const products = await prisma.products.findMany();
+  const products = await prisma.products.findMany({
+    include: {
+      categories: true
+    }
+  });
   return products;
 }
 
 export const findById = async (id: string): Promise<Products | null> => {
   const prisma = new PrismaClient();
+
   const product = await prisma.products.findUnique({
     where: {
       id: id
+    },
+    include: {
+      categories: true
     }
   });
+
   return product;
 }
 
