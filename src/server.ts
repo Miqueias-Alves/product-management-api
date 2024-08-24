@@ -1,9 +1,10 @@
 import cors from "cors";
 import dotenv from "dotenv";
-import express, { Express } from 'express';
+import express, { Express } from "express";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocs from "./docs/swagger.json";
-import routes from "./routes";
+import  routes from "./routes/index";
+import{ errorMiddleware }  from "./middlewares/erros";
 
 // Carrega as variáveis de ambiente
 dotenv.config();
@@ -19,6 +20,9 @@ app.use(cors());
 
 // Middleware para permitir requisições com corpo JSON
 app.use(express.json());
+
+// Middleware para tratamento de erros
+app.use(errorMiddleware);
 
 // Middleware para as rotas
 app.use("/api", routes);
