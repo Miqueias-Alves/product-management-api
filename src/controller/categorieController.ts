@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import * as CategoryService from "../service/categoryService";
+import { categoryValidate } from "../validations/categoryValidate";
 
 export const findAll = async (req: Request, res: Response): Promise<void> => {
     const categories = await CategoryService.findAll();
@@ -18,51 +19,79 @@ export const findById = async (req: Request, res: Response): Promise<void> => {
 }
 
 export const create = async (req: Request, res: Response): Promise<void> => {
-    const { name } = req.body;
+    const { error } = categoryValidate.validate(req.body, { abortEarly: false });
 
-    // checa se a categoria já existe, garantindo que não haja duplicidade
-    const categoryExists = await CategoryService.findByName(name);
-
-    if (categoryExists) {
-        res.status(400).json({ message: 'Category already exists' });
+    if (error) {
+        res.status(400).json({ 
+            message: "Validation error",
+            details: error.details.map(detail => detail.message)
+        });
         return;
     }
 
-    if (!name) {
-        res.status(400).json({ message: 'Name is required' });
-        return;
+    try {
+        const { name } = req.body;
+
+        // checa se a categoria já existe, garantindo que não haja duplicidade
+        const categoryExists = await CategoryService.findByName(name);
+    
+        if (categoryExists) {
+            res.status(400).json({ message: 'Category already exists' });
+            return;
+        }
+    
+        if (!name) {
+            res.status(400).json({ message: 'Name is required' });
+            return;
+        }
+    
+        const data = {
+            name
+        };
+    
+        const category = await CategoryService.create(data);
+        res.status(201).json(category);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' });
     }
-
-    const data = {
-        name
-    };
-
-    const category = await CategoryService.create(data);
-    res.status(201).json(category);
 }
 
 export const update = async (req: Request, res: Response): Promise<void> => {
-    const id = req.params.id;
-    const { name } = req.body;
+  const { error } = categoryValidate.validate(req.body, { abortEarly: false });
 
-    const categoryExists = await CategoryService.findById(id);
-
-    if (!categoryExists) {
-        res.status(404).json({ message: 'Category not found' });
+    if (error) {
+        res.status(400).json({ 
+            message: "Validation error",
+            details: error.details.map(detail => detail.message)
+        });
         return;
     }
 
-    if (!name) {
-        res.status(400).json({ message: 'Name is required' });
-        return;
+    try {
+      const id = req.params.id;
+      const { name } = req.body;
+  
+      const categoryExists = await CategoryService.findById(id);
+  
+      if (!categoryExists) {
+          res.status(404).json({ message: 'Category not found' });
+          return;
+      }
+  
+      if (!name) {
+          res.status(400).json({ message: 'Name is required' });
+          return;
+      }
+  
+      const data = {
+          name
+      };
+  
+      const category = await CategoryService.update(id, data);
+      res.status(200).json(category);
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' });
     }
-
-    const data = {
-        name
-    };
-
-    const category = await CategoryService.update(id, data);
-    res.status(200).json(category);
 }
 
 export const remove = async (req: Request, res: Response): Promise<void> => {
