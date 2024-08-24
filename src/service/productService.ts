@@ -78,3 +78,20 @@ export const remove = async (id: string): Promise<Products | null> => {
   });
   return product;
 }
+
+export const search = async (search: string): Promise<Products[] | null> => {
+  const prisma = new PrismaClient();
+  const products = await prisma.products.findMany({
+    where: {
+      OR: [
+        {
+          name: { contains: search }
+        },
+        {
+          description: { contains: search }
+        }
+      ]
+    }
+  });
+  return products;
+}
