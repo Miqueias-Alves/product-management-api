@@ -98,3 +98,18 @@ export const update = async (req: Request, res: Response, next: NextFunction): P
     res.status(500).json({ message: 'Error' });
   }
 }
+
+export const remove = async (req: Request, res: Response): Promise<void> => {
+  const id = req.params.id;
+
+  const productExist = await ProductService.findById(id);
+
+  if (!productExist) {
+    res.status(404).json({ message: 'Product not found' });
+    return;
+  }
+
+  const product = await ProductService.remove(id);
+
+  res.status(200).json({ message: `Product '${product?.name}' deleted!` });
+}

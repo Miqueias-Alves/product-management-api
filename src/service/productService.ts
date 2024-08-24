@@ -58,3 +58,13 @@ export const update = async (id: string, data: Product): Promise<Products | null
   });
   return product;
 }
+
+export const remove = async (id: string): Promise<Products | null> => {
+  const prisma = new PrismaClient();
+  const product = await prisma.products.delete({
+    where: {
+      id: id
+    }
+  });
+  return product;
+}
