@@ -12,5 +12,10 @@ export const findById = async (req: Request, res: Response) => {
 }
 
 export const create = async (req: Request, res: Response) => {
-  res.status(201).json({ message: "POST /test" });
+  try {
+    const prisma = new PrismaClient();
+    const { name, price } = req.body;
+  } catch (error) {
+    res.status(500).json({ message: 'Error' });
+  }
 }
