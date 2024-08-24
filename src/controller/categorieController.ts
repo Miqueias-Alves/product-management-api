@@ -31,3 +31,27 @@ export const create = async (req: Request, res: Response): Promise<void> => {
     const category = await CategoryService.create(data);
     res.status(201).json(category);
 }
+
+export const update = async (req: Request, res: Response): Promise<void> => {
+    const id = req.params.id;
+    const { name } = req.body;
+
+    const categoryExists = await CategoryService.findById(id);
+
+    if (!categoryExists) {
+        res.status(404).json({ message: 'Category not found' });
+        return;
+    }
+
+    if (!name) {
+        res.status(400).json({ message: 'Name is required' });
+        return;
+    }
+
+    const data = {
+        name
+    };
+
+    const category = await CategoryService.update(id, data);
+    res.status(200).json(category);
+}

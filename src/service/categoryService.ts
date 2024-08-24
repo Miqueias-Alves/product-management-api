@@ -10,7 +10,7 @@ export const findAll = async (): Promise<Categories[] | null> => {
 
 export const findById = async (id: string): Promise<Categories | null> => {
   const prisma = new PrismaClient();
-  const categories = await prisma.products.findUnique({
+  const categories = await prisma.categories.findUnique({
     where: {
       id: id
     }
@@ -27,4 +27,18 @@ export const create = async (data: Category): Promise<Category> => {
     }
   });
   return category
+}
+
+export const update = async (id: string, data: Category): Promise<Category | null> => {
+  const prisma = new PrismaClient();
+  const category = await prisma.categories.update({
+    where: {
+      id: id
+    },
+    data: {
+      name: data.name,
+      updated_at: new Date()
+    }
+  });
+  return category;
 }

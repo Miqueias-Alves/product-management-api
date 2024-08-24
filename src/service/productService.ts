@@ -53,7 +53,8 @@ export const update = async (id: string, data: Product): Promise<Products | null
       description: data.description,
       expirationDate: new Date(date),
       image: data.image,
-      category_id: data.categoryId
+      category_id: data.categoryId,
+      updated_at: new Date()
     }
   });
   return product;
