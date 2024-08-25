@@ -3,14 +3,23 @@ import { v4 as uuid } from "uuid";
 import moment from "moment";
 import { Product }  from "../model/productModel";
 
-export const findAll = async (): Promise<Products[] | null> => {
+export const findAll = async (page: number = 1, pageSize: number = 10): Promise<{items: Products[], total: number}> => {
   const prisma = new PrismaClient();
-  const products = await prisma.products.findMany({
-    include: {
-      categories: true
-    }
-  });
-  return products;
+  const skip = (page - 1) * pageSize;
+  const take = pageSize;
+
+  const [products, total] = await prisma.$transaction([
+    prisma.products.findMany({
+      skip,
+      take,
+      include: {
+        categories: true
+      }
+    }),
+    prisma.products.count()
+  ]);
+
+  return { items: products, total };
 }
 
 export const findById = async (id: string): Promise<Products | null> => {
