@@ -6,8 +6,10 @@ import { Product } from "../model/productModel";
 import { productValidate } from "../validations/productValidate";
 
 export const findAll = async (req: Request, res: Response): Promise<void> => {
-  const products = await ProductService.findAll();
-  res.status(200).json(products);
+  const { page = 1, pageSize = 10 } = req.query;
+  const products = await ProductService.findAll(Number(page), Number(pageSize));
+
+  res.status(200).json({ items: products.items, total: products.total });
 }
 
 export const findById = async (req: Request, res: Response): Promise<void> => {
