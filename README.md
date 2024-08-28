@@ -46,6 +46,12 @@ npm run dev
 
    [URL BASE](http://localhost:3000/api)
 
+## Documentação
+
+[Notion](https://www.notion.so/Tecnologias-utilizadas-para-a-API-22cdf118c3ae4e7e857b862be95be0fc#c844e840f61a45b2bd1346e9d32ff6a5)
+
+> Check Lista com todas as tecnologias utilizadas no projeto
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
