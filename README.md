@@ -46,6 +46,19 @@ npm run dev
 
    [URL BASE](http://localhost:3000/api)
 
+   4 . 1 acesse a rora 'http://localhost:3000/api/auth/login' com os seguintes dados no body.
+
+   ```json
+   {
+     "user": "root",
+     "password": "root"
+   }
+   ```
+
+   > O resultado da requisição gera o token para que tenha acesso as rotas privadas. Copie e cole o token nos cabeçalhos das requisições.
+
+   Obs: Esse 'login' é apenas para efeito de testes.
+
 ## Documentação
 
 [Notion](https://www.notion.so/Tecnologias-utilizadas-para-a-API-22cdf118c3ae4e7e857b862be95be0fc#c844e840f61a45b2bd1346e9d32ff6a5)
