@@ -15,12 +15,12 @@ datasource db {
 
 // model categories
 model Categories {
-  id         String     @id @default(uuid())
-  name       String     @db.VarChar(100)
-  created_at DateTime   @default(now())
-  updated_at DateTime   @default(now())
-  deleted_at DateTime?
-  products   Products[]
+  id        String     @id @default(uuid())
+  name      String     @db.VarChar(100)
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @default(now()) @map("updated_at")
+  deletedAt DateTime?  @map("deleted_at")
+  products  Products[]
 
   @@map("categories")
 }
@@ -33,11 +33,11 @@ model Products {
   price          Float
   expirationDate DateTime   @map("expiration_date")
   image          String
-  category_id    String
-  created_at     DateTime   @default(now())
-  updated_at     DateTime   @default(now())
-  deleted_at     DateTime?
-  categories     Categories @relation(fields: [category_id], references: [id])
+  categoryId     String     @map("category_id")
+  createdAt      DateTime   @default(now()) @map("created_at")
+  updatedAt      DateTime   @default(now()) @map("updated_at")
+  deletedAt      DateTime?  @map("deleted_at")
+  categories     Categories @relation(fields: [categoryId], references: [id])
 
   @@map("products")
 }

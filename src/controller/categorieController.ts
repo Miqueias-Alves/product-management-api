@@ -13,6 +13,7 @@ export const findById = async (req: Request, res: Response): Promise<void> => {
     
     if (!category) {
         res.status(404).json({ message: 'Category not found' });
+        return;
     }
 
     res.status(200).json(category);

@@ -16,7 +16,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000",
+      "url": "http://localhost:3000/api",
       "description": "Local server"
     }
   ],
@@ -27,6 +27,159 @@
     }
   ],
   "paths": {
+    "/categories": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Get all categories",
+        "description": "Get all categories",
+        "operationId": "getCategories",
+        "responses": {
+          "200": {
+            "description": "Categories were obtained",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Create a new category",
+        "description": "Create a new category",
+        "operationId": "createCategory",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Category was created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/categories/{id}":{
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Get a category by id",
+        "description": "Get a category by id",
+        "operationId": "getCategoryById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Category id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category was obtained",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Update a category by id",
+        "description": "Update a category by id",
+        "operationId": "updateCategoryById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Category id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Category was updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Delete a category by id",
+        "description": "Delete a category by id",
+        "operationId": "deleteCategoryById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Category id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Category was deleted"
+          }
+        }
+      }
+    },
+
     "/products": {
       "get": {
         "tags": [
@@ -181,31 +334,53 @@
   },
   "components": {
     "schemas": {
+      "Category": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Category name"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
       "Product": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "description": "Product id"
-          },
           "name": {
             "type": "string",
             "description": "Product name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Product description"
           },
           "price": {
             "type": "number",
             "description": "Product price"
           },
-          "quantity": {
-            "type": "number",
-            "description": "Product quantity"
+          "expirationDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Product expiration date"
+          },
+          "image": {
+            "type": "string",
+            "description": "Product image"
+          },
+          "categoryId": {
+            "type": "string",
+            "description": "Category id"
           }
         },
         "required": [
           "name",
           "price",
-          "quantity"
+          "expirationDate",
+          "image",
+          "categoryId"
         ]
       }
     }

@@ -1,7 +1,7 @@
 interface Category {
   id?: string;
   name: string;
-  deletedAt?: Date;
+  deletedAt?: Date | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
