@@ -37,7 +37,7 @@ export const update = async (id: string, data: Category): Promise<Category | nul
     },
     data: {
       name: data.name,
-      updated_at: new Date()
+      updatedAt: new Date()
     }
   });
   return category;

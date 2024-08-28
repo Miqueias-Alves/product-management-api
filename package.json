@@ -8,7 +8,8 @@
     "prod": "tsc && node dist/server.js",
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:rollback": "npx prisma migrate reset",
-    "prisma:seed": "ts-node ./prisma/seed/seed.ts"
+    "prisma:seed": "ts-node ./prisma/seed/seed.ts",
+    "prisma:generate": "npx prisma generate"
   },
   "author": "Miqueias Alves",
   "license": "ISC",
@@ -21,14 +22,14 @@
     "@types/uuid": "^10.0.0",
     "eslint": "^9.9.0",
     "globals": "^15.9.0",
-    "prisma": "^5.18.0",
+    "prisma": "^5.19.0",
     "swagger-ui-express": "^5.0.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.2.0"
   },
   "dependencies": {
-    "@prisma/client": "^5.18.0",
+    "@prisma/client": "^5.19.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",

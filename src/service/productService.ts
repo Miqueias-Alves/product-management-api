@@ -50,7 +50,7 @@ export const create = async (data: Product): Promise<Products> => {
       description: data.description,
       expirationDate: new Date(date),
       image: data.image,
-      category_id: data.categoryId
+      categoryId: data.categoryId
     }
   });
   return product;
@@ -71,8 +71,8 @@ export const update = async (id: string, data: Product): Promise<Products | null
       description: data.description,
       expirationDate: new Date(date),
       image: data.image,
-      category_id: data.categoryId,
-      updated_at: new Date()
+      categoryId: data.categoryId,
+      updatedAt: new Date()
     }
   });
   return product;
