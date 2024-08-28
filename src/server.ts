@@ -5,6 +5,8 @@ import swaggerUi from "swagger-ui-express";
 import swaggerDocs from "./config/swagger.json";
 import  routes from "./routes/index";
 import{ errorMiddleware }  from "./middlewares/erros";
+import authRouter from "./routes/authRopute";
+import jwt from "jsonwebtoken";
 
 // Carrega as variáveis de ambiente
 dotenv.config();
@@ -24,11 +26,32 @@ app.use(express.json());
 // Middleware para tratamento de erros
 app.use(errorMiddleware);
 
-// Middleware para as rotas
-app.use("/api", routes);
+// Routas publicas
+app.use("/api/auth", authRouter);
 
 // Middleware para a documentação da API
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+// Middleware para verificar o Token
+app.use((req, res, next) => {
+  const headers = req.headers.authorization;
+  const [, token] = headers ? headers.split(" ") : [null, null];
+
+  try {
+    if (!token) {
+      throw new Error("Token not found");
+    }
+
+    const tokenSecret = process.env.TOKEN_SECRET as string;
+    jwt.verify(token, tokenSecret);
+    next();
+  } catch (error) {
+    res.status(401).json({ message: "Token invalid" });
+  }
+});
+
+// Middleware para as rotas
+app.use("/api", routes);
 
 // Inicializando o servidor
 app.listen(port, () => {
